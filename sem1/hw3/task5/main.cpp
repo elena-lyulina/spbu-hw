@@ -88,7 +88,7 @@ int main()
         if (binarySearch(array, n, numbers[i]) == true)
             cout << "There is number " << numbers[i] << endl;
         if (binarySearch(array, n, numbers[i]) == false)
-            cout << "There isn't number " << numbers[i] << endl;
+            cout << "There is not number " << numbers[i] << endl;
     }
 
     delete[] array;
