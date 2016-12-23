@@ -37,7 +37,6 @@ int findMinTown(int lengths[], int visit[], int numberOfTowns)
 
 void goToNextTown(int number, int **towns, int *&lengths, int *&visit, int *&way, int numberOfTowns)
 {
-    number = number + 0;
     if (lengths[number] != 10000)
     {
         cout << "town number " << number + 1;
