@@ -39,5 +39,5 @@ int main()
 
     for (int i = 0; i < numberOfTowns; i++)
         delete [] towns[i];
-
+    delete towns;
 }
