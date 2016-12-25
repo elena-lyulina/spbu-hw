@@ -1,11 +1,12 @@
 #include <iostream>
-#include <string.h>
+#include "string.h"
 
 using namespace std;
 
 
 String *createString(char *value)
 {
+  //  cout << "new string" << endl;
     String *string = new String();
 
     int size = 0;
@@ -13,6 +14,7 @@ String *createString(char *value)
         size++;
 
     string->size = size;
+  //  cout << "new char" << endl;
     string->value = new char[size + 1];
 
     for (int i = 0; i < size; i++)
@@ -27,31 +29,7 @@ int size(String *string)
     return string->size;
 }
 
-String *concatenation(String *string, String *stringToAdd)
-{
-    int tempSize = size(string) + size(stringToAdd);
-    char *temp = new char[tempSize + 1];
-    int i = 0;
-    while (i < tempSize)
-    {
-        if (i < size(string))
-            temp[i] = string->value[i];
-        else
-            temp[i] = stringToAdd->value[i - size(string)];
-        i++;
-    }
-    temp[tempSize] = '\0';
-    String *tempString = createString(temp);
-    delete [] temp;
-    return tempString;
-}
 
-String *clone(String *stringToClone)
-{
-    String *result = createString(stringToClone->value);
-    return result;
-
-}
 
 bool areEqual(String *string1, String *string2)
 {
@@ -78,41 +56,17 @@ bool isEmpty(String *string)
 
 char *convertToChar(String *string)
 {
+  //  cout << "new char" << endl;
     char *result = new char[string->size + 1];
-    int i = 0;
-    for (i; i < string->size; i++)
+
+    for (int i = 0; i < string->size; i++)
         result[i] = string->value[i];
 
-    result[i] = '\0';
+    result[string->size] = '\0';
     return result;
 }
 
-String *substring(String *string, int begin, int end)
-{
-    if (begin < 0)
-    {
-        cout << "begin < 0, I'll print your string from 0" << endl;
-        begin = 0;
-    }
 
-    char *temp = new char[end - begin + 1];
-
-    int i = begin;
-    while (i < end && i < size(string))
-    {
-        temp[i - begin] = string->value[i];
-        i++;
-        if (i >= size(string))
-        {
-            cout << "substring: out of range" << endl << "all i can print is: ";
-        }
-    }
-
-    temp[i - begin] = '\0';
-    String *tempString = createString(temp);
-    delete [] temp;
-    return tempString;
-}
 
 void printString(String *string)
 {
@@ -136,13 +90,12 @@ void deleteString(String *string)
     if(isEmpty(string))
     {
         delete string;
+      //  cout << "delete string" << endl;
         return;
     }
     delete [] string->value;
+  //  cout << "delete char" << endl;
     string->value = nullptr;
     delete string;
+  //  cout << "delete string" << endl;
 }
-
-
-
-

@@ -19,6 +19,7 @@ struct List
 
 List* createList()
 {
+//    cout << "new list" << endl;
     List *list = new List;
     list->head = nullptr;
     list->length = 0;
@@ -127,15 +128,17 @@ void deleteList(List *l)
     if (isListEmpty(l))
     {
         delete l;
+       // cout << "delete list" << endl;
         return;
     }
     ListElement *temp = l->head;
     while (temp != nullptr)
     {
         ListElement *toDelete = temp;
+        temp = temp->next;
         deleteString(toDelete->string);
         delete toDelete;
-        temp = temp->next;
     }
     delete l;
+  //  cout << "delete list" << endl;
 }

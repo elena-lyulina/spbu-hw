@@ -38,6 +38,7 @@ int main()
 
             String *string = createString(nextWord);
 
+
             addToHT(ht, string);
 
             clean(nextWord, i);

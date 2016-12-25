@@ -2,7 +2,7 @@
 #include "hashtable.h"
 #include "string.h"
 #include "list.h"
-#include <string.h>
+
 
 using namespace std;
 
@@ -17,6 +17,7 @@ HashTable *createHT()
     HashTable *ht = new HashTable();
     for (int i = 0; i < tableSize; i++)
         ht->table[i] = createList();
+    return ht;
 }
 
 
@@ -34,6 +35,7 @@ int hashString(String *stringToHash)
     }
 
     delete [] string;
+  //  cout << "delete char" << endl;
     return hash;
 }
 
@@ -99,8 +101,6 @@ void deleteHT(HashTable *ht)
 {
     for (int i = 0; i < tableSize; i++)
         deleteList(ht->table[i]);
-    delete [] ht->table;
     delete ht;
 }
-
 

@@ -16,6 +16,3 @@ char *convertToChar(String *string);
 String* substring(String *string, int begin, int end);
 void printString(String *string);
 void deleteString(String *string);
-
-
-
