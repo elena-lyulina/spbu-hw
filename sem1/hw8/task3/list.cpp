@@ -67,6 +67,7 @@ void addToList(List *l, String *string)
     {
         l->head->amount++;
         l->amountOfWords++;
+        deleteString(string);
         return;
     }
 
@@ -78,6 +79,7 @@ void addToList(List *l, String *string)
         {
             temp->amount++;
             l->amountOfWords++;
+            deleteString(string);
 
             return;
         }
