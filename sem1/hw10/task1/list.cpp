@@ -112,9 +112,9 @@ void deleteList(List *l)
     ListElement *temp = l->head;
     while (temp->next != nullptr)
     {
-        ListElement *temptemp = temp;
-        delete temptemp;
+        ListElement *toDelete = temp;
         temp = temp->next;
+        delete toDelete;
     }
     delete temp;
     delete l;
