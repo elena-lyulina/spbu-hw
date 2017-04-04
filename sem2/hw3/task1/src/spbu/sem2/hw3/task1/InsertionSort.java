@@ -1,7 +1,9 @@
 package spbu.sem2.hw3.task1;
 
+/**
+ * Insertion sort.
+ */
 public class InsertionSort implements Sorting {
-    @Override
     public void sort(int[] arr) {
         for (int i = 1; i < arr.length; i++) {
             int key = arr[i];

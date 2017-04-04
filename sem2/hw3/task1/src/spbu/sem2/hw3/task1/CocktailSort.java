@@ -1,7 +1,9 @@
 package spbu.sem2.hw3.task1;
 
+/**
+ * Coctail sort.
+ */
 public class CocktailSort implements Sorting {
-    @Override
     public void sort(int[] arr) {
         for (int j = 0; j < (arr.length / 2) - 1; j++) {
             int flag = 0;
@@ -25,6 +27,5 @@ public class CocktailSort implements Sorting {
                 }
             }
         }
-
     }
 }

@@ -1,7 +1,9 @@
 package spbu.sem2.hw3.task1;
 
+/**
+ * Gnome sort.
+ */
 public class GnomeSort implements Sorting {
-    @Override
     public void sort(int[] arr) {
         int i = 1;
         int h = 2;
@@ -20,6 +22,5 @@ public class GnomeSort implements Sorting {
                 }
             }
         }
-
     }
 }
