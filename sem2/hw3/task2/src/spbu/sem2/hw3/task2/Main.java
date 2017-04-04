@@ -23,12 +23,11 @@ public class Main {
         int fileOrConsole = sc.nextInt();
 
         if (fileOrConsole == 0) {
-            Vyvodilka vyvodilka = new ConsoleVyvodilka();
+            Outputer vyvodilka = new ConsoleOutputer();
             vyvodilka.printArray(array);
         } else {
-            Vyvodilka vyvodilka = new FileVyvodilka();
+            Outputer vyvodilka = new FileOutputer();
             vyvodilka.printArray(array);
         }
-
     }
 }
