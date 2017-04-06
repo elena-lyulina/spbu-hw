@@ -9,9 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-import static org.junit.Assert.*;
-
-
 public class OutputerTest {
     int[][] array = {{1, 1, 1, 1, 1}, {1, 2, 2, 2, 1}, {1, 2, 3, 2, 1}, {1, 2, 2, 2, 1}, {1, 1, 1, 1, 1}};
     String correctResult = "3 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ";

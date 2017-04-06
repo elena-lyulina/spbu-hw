@@ -6,11 +6,10 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         Scanner sc = new Scanner(System.in);
-        int array[][];
 
         System.out.println("enter array' size");
         int n = sc.nextInt();
-        array = new int[n][n];
+        int array[][] = new int[n][n];
 
         System.out.println("enter array");
         for (int i = 0; i < n; i++) {
@@ -23,11 +22,11 @@ public class Main {
         int fileOrConsole = sc.nextInt();
 
         if (fileOrConsole == 0) {
-            Outputer vyvodilka = new ConsoleOutputer();
-            vyvodilka.printArray(array);
+            Outputer outputer = new ConsoleOutputer();
+            outputer.printArray(array);
         } else {
-            Outputer vyvodilka = new FileOutputer();
-            vyvodilka.printArray(array);
+            Outputer outputer = new FileOutputer();
+            outputer.printArray(array);
         }
     }
 }
