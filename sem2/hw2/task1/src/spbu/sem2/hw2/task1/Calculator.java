@@ -66,26 +66,10 @@ public class Calculator {
         int i = 0;
         while (i < string.length()) {
             char c = string.charAt(i);
-            switch (c) {
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    numbers.push(c - '0');
-                    break;
-                case '/':
-                case '*':
-                case '+':
-                case '-':
-                    numbers.push(doMath(c));
-                    break;
-            }
+            if (isNumber(c))
+                numbers.push(c - '0');
+            else if (isOperator(c))
+                numbers.push(doMath(c));
             i++;
         }
         return numbers.pop();

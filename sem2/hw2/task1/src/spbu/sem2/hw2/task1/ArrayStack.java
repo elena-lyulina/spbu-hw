@@ -14,7 +14,7 @@ public class ArrayStack<Type> implements Stack<Type> {
      */
     private class Array<T> {
         private int maxSize = 5;
-        private Type[] arr = (Type[]) new Object[maxSize];;
+        private Type[] arr = (Type[]) new Object[maxSize];
         private int size = 0;
 
         /**
@@ -26,9 +26,7 @@ public class ArrayStack<Type> implements Stack<Type> {
             return size;
         }
 
-        /**
-         * this function doubles current array' size.
-         */
+        /** this function doubles current array' size. */
         public void doubleArray() {
             Type[] temp = null;
             temp = (Type[]) new Object[maxSize * 2];
