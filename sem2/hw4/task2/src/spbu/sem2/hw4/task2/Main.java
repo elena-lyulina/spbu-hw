@@ -9,7 +9,6 @@ public class Main {
     static Scanner sc;
 
     public static void main(String[] args) throws FileNotFoundException {
-       // Scanner fileScanner = new Scanner(new File("input.txt"));
         sc = new Scanner(System.in);
 
         System.out.println("Hello!");
@@ -18,7 +17,10 @@ public class Main {
         System.out.println("press 2 to choose FAQ6-function");
 
         int hashFunction = sc.nextInt();
-        ht = new HashTable(hashFunction);
+        if (hashFunction == 1)
+            ht = new HashTable(new RsHashFunction());
+        else
+            ht = new HashTable(new Faq6HashFunction());
 
         System.out.println("press 'a' to add word to hashtable");
         System.out.println("press 'r' to remove word from hashtable");

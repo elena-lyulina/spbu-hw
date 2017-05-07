@@ -5,8 +5,8 @@ import org.junit.Assert;
 
 public class HashTableInterfaceTest {
     int size = 100;
-    HashTable ht1 = new HashTable(1);
-    HashTable ht2 = new HashTable(2);
+    HashTable ht1 = new HashTable(new RsHashFunction());
+    HashTable ht2 = new HashTable(new Faq6HashFunction());
 
     private void initialize(String[] array) {
         for (int i = 0; i < array.length; i++) {

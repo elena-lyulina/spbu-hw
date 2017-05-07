@@ -4,57 +4,23 @@ package spbu.sem2.hw4.task2;
 public class HashTable implements HashTableInterface {
     private static int tableSize = 1000;
     private UniqueList<String>[] list;
-    private int hash;
+    private HashFunction hashFunction;
 
-    public HashTable(int hashFunction) {
-        hash = hashFunction;
+    public HashTable(HashFunction hashFunction) {
+        this.hashFunction = hashFunction;
         list = (UniqueList<String>[]) new UniqueList[tableSize];
         for (int i = 0; i < tableSize; i++) {
             list[i] = new UniqueList<>();
         }
     }
 
+    /**
+     * This function gets hash of string
+     * @param string string you want to hash
+     * @return hash of this string
+     */
     private int hash(String string) {
-        if (hash == 1)
-            return hashRS(string);
-        else
-            return hashFAQ6(string);
-    }
-
-    /**
-     * HashFunction number one.
-     * @param stringToHash string you want to hash
-     * @return hash of this string
-     */
-    private int hashRS(String stringToHash) {
-        int b = 378551;
-        int a = 63689;
-        int hash = 0;
-
-        for (int i = 0; i < stringToHash.length(); i++) {
-            hash = (hash * a + stringToHash.charAt(i)) % tableSize;
-            a = (a * b) % tableSize;
-        }
-        return hash % tableSize;
-    }
-
-    /**
-     * HashFunction number two.
-     * @param stringToHash string you want to hash
-     * @return hash of this string
-     */
-    private int hashFAQ6(String stringToHash) {
-        int hash = 0;
-        for (int i = 0; i < stringToHash.length(); i++) {
-            hash += stringToHash.charAt(i);
-            hash += (hash << 10);
-            hash ^= (hash >> 6);
-        }
-        hash += (hash << 3);
-        hash ^= (hash >> 11);
-        hash += (hash << 15);
-
-        return Math.abs(hash) % tableSize;
+        return hashFunction.hash(string, tableSize);
     }
 
     public void add(String string) {
@@ -62,13 +28,12 @@ public class HashTable implements HashTableInterface {
         list[index].add(string);
     }
 
-    public void remove(String string) {
+    public void remove(String string) throws ElementDidntFind {
         int index = hash(string);
-        if (list[index].findElement(string) != null)
+        if (list[index].findElement(string) == null)
+            throw new ElementDidntFind();
+        else
             list[index].remove(string);
-        else {
-            System.out.println("remove element: not found");
-        }
     }
 
     public void getInformation() {
@@ -104,13 +69,10 @@ public class HashTable implements HashTableInterface {
         list[indexOfMaxList].printList();
     }
 
-    public boolean findWord(String word) {
+    public boolean findWord(String word) throws ElementDidntFind{
         int index = hash(word);
         UniqueList.ListElement temp = list[index].findElement(word);
-        if (temp == null) {
-            System.out.println("not found: " + word);
-            return false;
-        }
+        if (temp == null) throw new ElementDidntFind();
         else {
             System.out.println("found: " + temp.value + " (" + temp.amount + ")");
             return true;
@@ -122,5 +84,14 @@ public class HashTable implements HashTableInterface {
             if (!list[i].isEmpty()) return false;
         }
         return true;
+    }
+
+    /**
+     * exception in case of trying to find an element which doesn't exist
+     */
+    public static class ElementDidntFind extends RuntimeException {
+        public ElementDidntFind() {
+            super("This element didn't find");
+        }
     }
 }
