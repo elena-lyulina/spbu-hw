@@ -4,12 +4,12 @@ package spbu.sem2.hw7.task2;
 public class Game {
     public static int buttons[][] = new int[3][3];
 
-    /** initializes array of button with different values. */
+    /** initializes array of button with different values from 3 to 11.
+     * value 1 will be mean X, value 2 will be mean O*/
     public static void initialize() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 buttons[i][j] = i * 3 + j + 3;
-                System.out.println(buttons[i][j]);
             }
         }
     }

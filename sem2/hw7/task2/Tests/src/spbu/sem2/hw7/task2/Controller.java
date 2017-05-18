@@ -59,7 +59,11 @@ public class Controller {
         }
     }
 
-    /** adds the value of button has been pressing to the buttons array. */
+    /** adds the value of button(identify by coordinates) has been pressing to the buttons array.
+     * @param coordX x-coordinate of button
+     * @param coordY y-coordinate of button
+     * @param value 1 or 2 depends on player
+     */
     public void setButtons(double coordX, double coordY, int value) {
         int x = 0;
         int y = 0;
