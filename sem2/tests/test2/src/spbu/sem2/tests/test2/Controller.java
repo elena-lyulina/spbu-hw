@@ -37,10 +37,10 @@ public class Controller {
                     Game.open[alrdOpenX][alrdOpenY] = 1;
                 } else {
                     TimeUnit.SECONDS.sleep(1);
-                    Game.buttons[x][y].setText("");
-                    Game.buttons[alrdOpenX][alrdOpenY].setText("");
                     Game.open[x][y] = 0;
                     Game.open[alrdOpenX][alrdOpenY] = 0;
+                    Game.buttons[x][y].setText("");
+                    Game.buttons[alrdOpenX][alrdOpenY].setText("");
                 }
             }
         }

@@ -5,7 +5,8 @@ import javafx.scene.control.Button;
 import java.util.Random;
 
 public class Game {
-    static int n = 4;
+    static int N = 2;
+    static int n = N * 2;
     public static Button[][] buttons = new Button[n][n];
     public static int[][] open = new int[n][n];
     public static int[][] value = new int[n][n];
