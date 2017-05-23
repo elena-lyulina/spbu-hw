@@ -18,19 +18,19 @@ public class Calculator {
         double answer = 0;
         switch (operation) {
             case "+":
-                answer = Integer.parseInt(operand1) + Integer.parseInt(operand2);
+                answer = Double.parseDouble(operand1) + Double.parseDouble(operand2);
                 break;
             case "-":
-                answer = Integer.parseInt(operand1) - Integer.parseInt(operand2);
+                answer = Double.parseDouble(operand1) - Double.parseDouble(operand2);
                 break;
             case "*":
-                answer = Integer.parseInt(operand1) * Integer.parseInt(operand2);
+                answer = Double.parseDouble(operand1) * Double.parseDouble(operand2);
                 break;
             case "/":
                 if (operand2 == "0")
                     throw new DivisionByZero();
                 else
-                    answer = (double) Integer.parseInt(operand1) / (double) Integer.parseInt(operand2);
+                    answer = Double.parseDouble(operand1) / Double.parseDouble(operand2);
                 break;
             }
             return Double.toString(round(answer));

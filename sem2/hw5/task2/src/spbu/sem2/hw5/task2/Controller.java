@@ -13,22 +13,22 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
     /** Label for number. */
     @FXML
-    public Label number;
+    public static Label number = new Label();
     /** Label for expression.*/
     @FXML
-    private Label expression;
+    public static Label expression = new Label();
 
     /** String for left operand. */
-    private String operand1;
+    private static String operand1 = "";
     /** String for right operand. */
-    private String operand2;
+    private static String operand2 = "";
     /** String for operation. */
-    private String operation;
+    private static String operation = "";
 
     /** monitors math process. */
-    private boolean mathDone;
+    public static boolean mathDone;
     /** monitors operation/ */
-    private boolean operationDone;
+    public static boolean operationDone;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -38,7 +38,7 @@ public class Controller implements Initializable {
     }
 
     /** clears all operands. */
-    private void clearOperands() {
+    public static void clearOperands() {
         operation = "";
         operand1 = "";
         operand2 = "";
@@ -48,7 +48,7 @@ public class Controller implements Initializable {
      * function in case of pressing button with number.
      * changes label "number"
      */
-    public void pressNumber(ActionEvent actionEvent) {
+    public static void pressNumber(ActionEvent actionEvent) {
         if (!mathDone) {
             Button button = (Button) actionEvent.getSource();
             String str = button.getText();
@@ -60,7 +60,7 @@ public class Controller implements Initializable {
      *function in case of pressing button with operation.
      * sets operand1 and operation, changes labels
      */
-    public void pressOperation(ActionEvent actionEvent) {
+    public static void pressOperation(ActionEvent actionEvent) {
         if (number.getText() != "" && !operationDone && !mathDone) {
             Button button = (Button) actionEvent.getSource();
             operand1 = number.getText();
@@ -75,21 +75,23 @@ public class Controller implements Initializable {
      * function in case of pressing result button.
      * sets operand2, calls class Calculator for calculating, prints result in label "number"
      */
-    public void pressResult(ActionEvent actionEvent) {
-        if (operand1 != "" && operation != "" & !number.getText().equals("")) {
+    public static void pressResult(ActionEvent actionEvent) {
+        if (!operand1.equals("") && !operation.equals("") & !operand1.equals("") & !number.getText().equals("")) {
             operand2 = number.getText();
             expression.setText(expression.getText() + operand2 + " =");
+            System.out.println(expression.getText());
             String result = Calculator.calculate(operand1, operand2, operation);
             number.setText(result);
             clearOperands();
-            mathDone = true;
+            operationDone = false;
+            operand1 = result;
         }
     }
 
     /** function in case of pressing CE button.
      * clears label "number"
      */
-    public void pressCE(ActionEvent actionEvent) {
+    public static void pressCE(ActionEvent actionEvent) {
         if (!mathDone)
             number.setText("");
     }
@@ -97,7 +99,7 @@ public class Controller implements Initializable {
     /** function in case of pressing C button.
      * clears all labels
      */
-    public void pressC(ActionEvent actionEvent) {
+    public static void pressC(ActionEvent actionEvent) {
         mathDone = false;
         operationDone = false;
         expression.setText("");
@@ -109,7 +111,7 @@ public class Controller implements Initializable {
      * function in case of pressing backspace.
      * delete the last digit in label "number"
      */
-    public void pressBackspace(ActionEvent actionEvent) {
+    public static void pressBackspace(ActionEvent actionEvent) {
         if (!number.getText().equals("") && mathDone == false) {
             String value = number.getText();
             number.setText(value.substring(0, value.length() - 1));
