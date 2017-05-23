@@ -17,11 +17,11 @@ public class GameTest {
                           {2, 2, 8},
                           {1, 1, 1}};
         Game.buttons = array1;
-        Assert.assertTrue(Game.horizontalLine() != -1);
+        Assert.assertTrue(Game.horizontalLine() == 1);
         Game.buttons = array2;
-        Assert.assertTrue(Game.horizontalLine() != -1);
+        Assert.assertTrue(Game.horizontalLine() == 2);
         Game.buttons = array3;
-        Assert.assertTrue(Game.horizontalLine() != -1);
+        Assert.assertTrue(Game.horizontalLine() == 1);
     }
 
     @Test
@@ -36,11 +36,11 @@ public class GameTest {
                           {1, 2, 8},
                           {1, 1, 2}};
         Game.buttons = array1;
-        Assert.assertTrue(Game.verticalLine() != -1);
+        Assert.assertTrue(Game.verticalLine() == 1);
         Game.buttons = array2;
-        Assert.assertTrue(Game.verticalLine() != -1);
+        Assert.assertTrue(Game.verticalLine() == 2);
         Game.buttons = array3;
-        Assert.assertTrue(Game.verticalLine() != -1);
+        Assert.assertTrue(Game.verticalLine() == 1);
     }
 
     @Test
@@ -52,9 +52,9 @@ public class GameTest {
                           {2, 1, 8},
                           {1, 2, 2}};
         Game.buttons = array1;
-        Assert.assertTrue(Game.diagonal() != -1);
+        Assert.assertTrue(Game.diagonal() == 2);
         Game.buttons = array2;
-        Assert.assertTrue(Game.diagonal() != -1);
+        Assert.assertTrue(Game.diagonal() == 1);
     }
 
     @Test
