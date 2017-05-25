@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-
 public class Main extends Application {
 
     @Override
@@ -59,6 +58,8 @@ public class Main extends Application {
         Game.initialize();
 
         Scene scene = new Scene(border, 350, 400);
+        primaryStage.setMinWidth(Game.n * 50 + 50);
+        primaryStage.setMinHeight(Game.n * 50 + 100);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
