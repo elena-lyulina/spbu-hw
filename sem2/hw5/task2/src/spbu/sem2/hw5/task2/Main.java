@@ -41,7 +41,7 @@ public class Main extends Application {
 
         Button buttonAdd = createOperationButton("+", 4, 1);
         Button buttonSub = createOperationButton("-", 4, 2);
-        Button buttonMuti = createOperationButton("*", 4, 3);
+        Button buttonMulti = createOperationButton("*", 4, 3);
         Button buttonDiv = createOperationButton("/", 4, 4);
 
         Button buttonResult = createButton("=", 4, 0);
@@ -57,11 +57,19 @@ public class Main extends Application {
         buttonCE.setOnAction(e -> pressCE(e));
 
         Scene scene = new Scene(border, 350, 400);
+        primaryStage.setMinHeight(350);
+        primaryStage.setMinWidth(300);
         primaryStage.setScene(scene);
         primaryStage.show();
         primaryStage.setTitle("Calculator");
     }
 
+    /**
+     * creates new GridPane.
+     * @param colAmount amount of columns
+     * @param rowAmount amount if rows
+     * @return GridPane has been created
+     */
     public GridPane createGridPane(int colAmount, int rowAmount) {
         GridPane grid = new GridPane();
         for (int row = 0 ; row < rowAmount; row++ ){
@@ -79,18 +87,39 @@ public class Main extends Application {
         return grid;
     }
 
+    /**
+     * creates new number button, adds to GridPane "grid" and sets on action function "pressNumber".
+     * @param text text on button
+     * @param colInd index of grid column where you want to add button
+     * @param rowInd index of grid row where you want to add button
+     * @return button
+     */
     public Button createNumberButton(String text, int colInd, int rowInd) {
         Button button = createButton(text, colInd, rowInd);
         button.setOnAction(e -> pressNumber(e));
         return button;
     }
 
+    /**
+     * creates new operation button, adds to GridPane "grid" and sets on action function "pressOperation".
+     * @param text text on button
+     * @param colInd index of grid column where you want to add button
+     * @param rowInd index of grid row where you want to add button
+     * @return button
+     */
     public Button createOperationButton(String text, int colInd, int rowInd) {
         Button button = createButton(text, colInd, rowInd);
         button.setOnAction(e -> pressOperation(e));
         return button;
     }
 
+    /**
+     * creates new button and adds to GridPane "grid".
+     * @param text text on button
+     * @param colInd index of grid column where you want to add button
+     * @param rowInd index of grid row where you want to add button
+     * @return button
+     */
     public Button createButton(String text, int colInd, int rowInd) {
         Button button = new Button();
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);

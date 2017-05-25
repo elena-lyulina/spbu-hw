@@ -61,7 +61,7 @@ public class Controller implements Initializable {
      * sets operand1 and operation, changes labels
      */
     public static void pressOperation(ActionEvent actionEvent) {
-        if (number.getText() != "" && !operationDone && !mathDone) {
+        if (!number.getText().equals("") && !operationDone && !mathDone) {
             Button button = (Button) actionEvent.getSource();
             operand1 = number.getText();
             operation = button.getText();
