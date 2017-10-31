@@ -1,7 +1,6 @@
-package spbu.sem3.hw2.task2;
-
 import org.junit.Test;
 import org.junit.Assert;
+import spbu.sem3.hw2.task2.IteratorTree;
 
 import java.util.Iterator;
 
@@ -16,7 +15,7 @@ public class TreeIteratorTest {
         for (int i = 0; i < elements.length; i++) {
             tree.addElement(elements[i]);
         }
-        Assert.assertTrue(expectedAnswer.equals(tree.print()));
+        Assert.assertTrue(expectedAnswer.equals(tree.print().toString()));
 
         for (int i = 1; i <= elements.length; i++) {
             boolean thrown = false;

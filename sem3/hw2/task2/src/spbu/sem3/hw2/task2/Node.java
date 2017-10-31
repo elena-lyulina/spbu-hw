@@ -5,10 +5,10 @@ package spbu.sem3.hw2.task2;
  * @param <T> type of data
  */
 public class Node<T extends Comparable> {
-    public T data;
-    public Node<T> leftChild;
-    public Node<T> rightChild;
-    public Node<T> parent;
+    private T data = null;
+    private Node<T> leftChild = null;
+    private Node<T> rightChild = null;
+    private Node<T> parent = null;
 
     /**
      * Constructor for Node.
@@ -17,9 +17,22 @@ public class Node<T extends Comparable> {
      */
     public Node(T data, Node parent) {
         this.data = data;
-        leftChild = null;
-        rightChild = null;
         this.parent = parent;
+    }
+
+    /** Get the data of this node. */
+    public T getData() {
+        return data;
+    }
+
+    /** Get the left child of this node. */
+    public Node<T> getLeftChild() {
+        return leftChild;
+    }
+
+    /** Get the parent of this node. */
+    public Node<T> getParent() {
+        return parent;
     }
 
     /** Get the right child of this node. */
@@ -124,23 +137,15 @@ public class Node<T extends Comparable> {
      * @param out String to which you want to add this node
      * @return the final result of printing
      */
-    public String print(String out) {
+    public StringBuilder print(StringBuilder out) {
         if (isItNull(this)) {
-            out = out.concat(" null");
+            out.append(" null");
             return out;
         }
-        out = out.concat(" (" + data);
-        if (isItNull(leftChild)) {
-            out = out.concat(" null");
-        } else {
-            out = out.concat(leftChild.print(""));
-        }
-        if (isItNull(rightChild)) {
-            out = out.concat(" null");
-        } else {
-            out = out.concat(rightChild.print(""));
-        }
-        out = out.concat(") ");
+        out.append(" (" + data);
+        out = isItNull(leftChild) ? out.append(" null") : out.append(leftChild.print(new StringBuilder()));
+        out = isItNull(rightChild) ? out.append(" null") : out.append(rightChild.print(new StringBuilder()));
+        out.append(") ");
         return out;
     }
 

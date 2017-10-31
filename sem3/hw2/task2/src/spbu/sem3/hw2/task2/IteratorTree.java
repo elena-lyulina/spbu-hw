@@ -4,15 +4,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /** Class that describes IteratorTree. */
-public class IteratorTree<T extends Comparable> implements Iterable<T> {
-    private Node<T> root;
-    private int size;
-
-    /** Constructor for IteratorTree. */
-    public IteratorTree(){
-        root = null;
-        size = 0;
-    }
+public class IteratorTree<T extends Comparable<T>> implements Iterable<T> {
+    private Node<T> root = null;
+    private int size = 0;
 
     /**
      *  Adding element to tree.
@@ -33,10 +27,7 @@ public class IteratorTree<T extends Comparable> implements Iterable<T> {
      * @return false or true depends on existing element in the tree
      */
     public boolean findElement(T data) {
-        if (root == null || root.find(data) == null) {
-            return false;
-        }
-        return true;
+        return root != null && root.find(data) != null;
     }
 
     /**
@@ -49,12 +40,11 @@ public class IteratorTree<T extends Comparable> implements Iterable<T> {
           throw new Node.ElementDoesntExist();
       }
       size--;
-      if (root.data == data) {
+      if (root.getData() == data) {
           Node<T> rootParent = new Node(null, null);
           rootParent.setRightChild(root);
           root.remove();
           root = rootParent.getRightChild();
-          return;
       }
       else {
           root.find(data).remove();
@@ -65,11 +55,12 @@ public class IteratorTree<T extends Comparable> implements Iterable<T> {
      * Printing the tree in "root - leftChild - rightChild" - construction.
      * @return String with printing tree
      */
-    public String print() {
+    public StringBuilder print() {
+        StringBuilder builder = new StringBuilder();
         if (root == null) {
-            return "null";
+            return builder.append("null");
         }
-        return root.print("");
+        return root.print(builder);
     }
 
     /**
@@ -104,8 +95,8 @@ public class IteratorTree<T extends Comparable> implements Iterable<T> {
             if(next == null)
                 return;
 
-            while (next.leftChild != null)
-                next = next.leftChild;
+            while (next.getLeftChild() != null)
+                next = next.getLeftChild();
         }
 
         /**
@@ -128,24 +119,24 @@ public class IteratorTree<T extends Comparable> implements Iterable<T> {
             }
             Node<T> toReturn = next;
 
-            if (next.rightChild != null) {
-                next = next.rightChild;
-                while (next.leftChild != null) {
-                    next = next.leftChild;
+            if (next.getRightChild() != null) {
+                next = next.getRightChild();
+                while (next.getLeftChild() != null) {
+                    next = next.getLeftChild();
                 }
-                return toReturn.data;
+                return toReturn.getData();
             }
 
-            while (next.parent != null) {
-                if (next == next.parent.leftChild) {
-                    next = next.parent;
-                    return toReturn.data;
+            while (next.getParent() != null) {
+                if (next == next.getParent().getLeftChild()) {
+                    next = next.getParent();
+                    return toReturn.getData();
                 }
-                next = next.parent;
+                next = next.getParent();
             }
 
             next = null;
-            return toReturn.data;
+            return toReturn.getData();
         }
 
         /** Remove actual element and changes number of next element */
