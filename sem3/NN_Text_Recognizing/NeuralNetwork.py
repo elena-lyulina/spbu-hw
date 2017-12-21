@@ -108,13 +108,6 @@ class Network:
                 print("Эпоха {0} завершена".format(j))
         if (testData is not None):
             return success_tests / n_test
-        """
-                Обновить веса и смещения нейронной сети, сделав шаг градиентного
-                спуска на основе алгоритма обратного распространения ошибки, примененного
-                к одному mini batch.
-                ``mini_batch`` - список кортежей вида ``(x, y)``,
-                ``eta`` - величина шага (learning rate).
-                """
 
     def updateMiniBatch(self, miniBatch, eta):
         """
@@ -133,12 +126,6 @@ class Network:
         eps = eta / len(miniBatch)
         self.weights = [w - eps * nw for w, nw in zip(self.weights, nablaW)]
         self.biases = [b - eps * nb for b, nb in zip(self.biases, nablaB)]
-
-        """
-                Возвращает кортеж ``(nablaB, nabla_w)`` -- градиент целевой функции по всем параметрам сети.
-                ``nablaB`` и ``nabla_w`` -- послойные списки массивов ndarray,
-                такие же, как self.biases и self.weights соответственно.
-                """
 
     def backProp(self, x, y):
         """
@@ -186,10 +173,7 @@ class Network:
                         for (x, y) in testData]
         return sum(int(x == y) for (x, y) in testResults)
 
-    """
-           Возвращает вектор частных производных (\partial C_x) / (\partial a)
-           целевой функции по активациям выходного слоя.
-           """
+
     def cost_derivative(self, outputActivations, y):
         """
         partial differential vector of object function with respect to output activations
