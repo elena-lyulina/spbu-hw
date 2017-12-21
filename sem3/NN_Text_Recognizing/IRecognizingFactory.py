@@ -1,7 +1,7 @@
 import zope.interface as i
 import IConverter as c
 import SimpleConverter as sc
-import UpdateConverter as uc
+import UpdatedConverter as uc
 
 class AbstractRecognizingFactory(i.Interface):
     """
@@ -72,7 +72,7 @@ class SimpleRecognizer(object):
         if (n == 29): return u'я'
 
 
-class UpdateRecognizer(object):
+class UpdatedRecognizer(object):
     """
     Does recognize some difficult letters like 'ё', 'ы', 'й' and spaces
     Uses information about font size, so be sure that the letters size is
@@ -81,9 +81,9 @@ class UpdateRecognizer(object):
     @i.implementer(AbstractRecognizingFactory)
 
     def __init__(self):
-        self.sizeFilePath = 'updateSize'
-        self.weightsFilePath = 'updateWeights'
-        self.biasesFilePath = 'updateBiases'
+        self.sizeFilePath = 'updatedSize'
+        self.weightsFilePath = 'updatedWeights'
+        self.biasesFilePath = 'updatedBiases'
 
     def createConverter(self, img, filePath):
         return uc.UpdateConverter(img, filePath)
