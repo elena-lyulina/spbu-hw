@@ -1,4 +1,5 @@
 import zope.interface as i
+import numpy as np
 
 class InterfaceConverter(i.Interface):
     """

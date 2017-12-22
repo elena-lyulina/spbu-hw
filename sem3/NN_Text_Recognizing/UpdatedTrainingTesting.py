@@ -2,24 +2,26 @@ import NeuralNetwork
 import numpy as np
 import random
 import pickle
+from PIL import Image
+import UpdatedConverter as uc
 
 """
-These parameters were found for data with different fonts, percent of success predictions is 96,5
+These parameters were found for data with different fonts, percent of success predictions is 94,1
 """
 
 inputSize = 15 * 13  # 195 neurons in the input layer - average width*height for letters
-hiddenLayer1 = 100 # 100 neurons in the first hidden layer
-hiddenLayer2 = 45  # 45 neurons in the second hidden layer
-outputSize = 30  # 30 neurons in the output layer - for one to each letter
+hiddenLayer1 = 130 # 130 neurons in the first hidden layer
+hiddenLayer2 = 60  # 60 neurons in the second hidden layer
+outputSize = 34  # 34 neurons in the output layer - for one to each letter and one for space
 
-epochs = 200
+epochs = 150
 miniBatchSize = 20
-eta = 5
+eta = 4 # 130 40 15 3 - 10 batch 0.9158
 
-dataFile = "simpleData.txt"
-sizeFile = "simpleSize"
-weightsFile = "simpleWeights"
-biasesFile = "simpleBiases"
+dataFile = "updatedData.txt"
+sizeFile = "updatedSize"
+weightsFile = "updatedWeights"
+biasesFile = "updatedBiases"
 
 def writeToFile(name, data):
     with open('Res\%s.pickle' % name, 'wb') as f:

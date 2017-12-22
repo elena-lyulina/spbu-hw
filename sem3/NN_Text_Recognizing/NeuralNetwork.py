@@ -17,7 +17,7 @@ def sigmoidPrime(z):
     """
     return sigmoid(z) * (1 - sigmoid(z))
 
-def costFunction(network, test_data, onehot=True):
+def costFunction(network, test_data, size, onehot=True):
     """
     cost function
     :param network: network you want to test
@@ -28,7 +28,7 @@ def costFunction(network, test_data, onehot=True):
     c = 0
     for example, y in test_data:
         if not onehot:
-            y = np.eye(3, 1, k =- int(y))
+            y = np.eye(size, 1, k =- int(y))
         yhat = network.feedForward(example)
         c += np.sum((y - yhat)**2)
     return c / len(test_data)

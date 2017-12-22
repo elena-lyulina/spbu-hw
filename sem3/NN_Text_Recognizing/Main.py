@@ -12,7 +12,7 @@ def loadFromFile(name):
        with open('Res\%s.pickle' % name, 'rb') as f:
               return pickle.load(f)
 
-factory = rg.SimpleRecognizer()
+factory = rg.UpdatedRecognizer()
 
 sizes = loadFromFile(factory.sizeFilePath)
 weights = loadFromFile(factory.weightsFilePath)
