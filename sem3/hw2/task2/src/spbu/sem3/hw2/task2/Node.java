@@ -70,22 +70,18 @@ public class Node<T extends Comparable> {
         if (data.compareTo(element) == 0) {
             throw new ElementDoesExist();
         }
-        if (data.compareTo(element) < 0) {
-            if (rightChild == null) {
+        else if (data.compareTo(element) < 0) {
+            if (rightChild == null)
                 rightChild = new Node<T>(element, this);
-                return;
-            }
-            rightChild.add(element);
-            return;
+            else
+                rightChild.add(element);
         }
 
-        if (data.compareTo(element) > 0) {
-            if (leftChild == null) {
+        else if (data.compareTo(element) > 0) {
+            if (leftChild == null)
                 leftChild = new Node<T>(element, this);
-                return;
-            }
-            leftChild.add(element);
-            return;
+            else
+                leftChild.add(element);
         }
     }
 
@@ -115,9 +111,6 @@ public class Node<T extends Comparable> {
      * @throws ElementDoesntExist if thi element doesn't exist
      */
     public void remove() throws ElementDoesntExist {
-        if (this == null) {
-            throw new ElementDoesntExist();
-        }
         if (leftChild != null && rightChild != null) {
             Node<T> temp = rightChild;
             while (temp.leftChild != null) {
@@ -143,8 +136,8 @@ public class Node<T extends Comparable> {
             return out;
         }
         out.append(" (" + data);
-        out = isItNull(leftChild) ? out.append(" null") : out.append(leftChild.print(new StringBuilder()));
-        out = isItNull(rightChild) ? out.append(" null") : out.append(rightChild.print(new StringBuilder()));
+        out = isItNull(leftChild) ? out.append(" null") : (leftChild.print(out));
+        out = isItNull(rightChild) ? out.append(" null") : (rightChild.print(out));
         out.append(") ");
         return out;
     }
@@ -159,14 +152,14 @@ public class Node<T extends Comparable> {
     }
 
     /** Exception in case of "this element doesn't exist"-situation while finding or removing. */
-    public static class ElementDoesExist extends RuntimeException {
+    public static class ElementDoesExist extends Exception {
         public ElementDoesExist() {
             super("This element does exist");
         }
     }
 
     /** Exception in caseof adding element that already exists.*/
-    public static class ElementDoesntExist extends RuntimeException {
+    public static class ElementDoesntExist extends Exception {
         public ElementDoesntExist() {
             super("This element doesnt exist");
         }

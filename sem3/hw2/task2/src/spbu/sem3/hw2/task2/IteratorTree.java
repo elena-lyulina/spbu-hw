@@ -12,10 +12,10 @@ public class IteratorTree<T extends Comparable<T>> implements Iterable<T> {
      *  Adding element to tree.
      * @param data value you want to add
      */
-    public void addElement(T data) {
+    public void addElement(T data) throws Node.ElementDoesExist {
         size++;
         if (root == null) {
-            root = new Node(data, null);
+            root = new Node<>(data, null);
             return;
         }
         root.add(data);
@@ -36,19 +36,19 @@ public class IteratorTree<T extends Comparable<T>> implements Iterable<T> {
      * @throws Node.ElementDoesntExist in case of "element doesn't exist"-situation
      */
     public void removeElement(T data) throws Node.ElementDoesntExist{
-      if (root == null) {
-          throw new Node.ElementDoesntExist();
-      }
-      size--;
-      if (root.getData() == data) {
-          Node<T> rootParent = new Node(null, null);
-          rootParent.setRightChild(root);
-          root.remove();
-          root = rootParent.getRightChild();
-      }
-      else {
-          root.find(data).remove();
-      }
+        if (root == null) {
+            throw new Node.ElementDoesntExist();
+        }
+        size--;
+        if (root.getData() == data) {
+            Node<T> rootParent = new Node(null, null);
+            rootParent.setRightChild(root);
+            root.remove();
+            root = rootParent.getRightChild();
+        }
+        else {
+            root.find(data).remove();
+        }
     }
 
     /**
@@ -142,7 +142,11 @@ public class IteratorTree<T extends Comparable<T>> implements Iterable<T> {
         /** Remove actual element and changes number of next element */
         @Override
         public void remove() {
-            removeElement(this.next());
+            try {
+                removeElement(this.next());
+            } catch (Node.ElementDoesntExist elementDoesntExist) {
+                elementDoesntExist.printStackTrace();
+            }
         }
     }
 }

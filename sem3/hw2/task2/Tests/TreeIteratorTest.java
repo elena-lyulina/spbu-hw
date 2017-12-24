@@ -1,6 +1,7 @@
 import org.junit.Test;
 import org.junit.Assert;
 import spbu.sem3.hw2.task2.IteratorTree;
+import spbu.sem3.hw2.task2.Node;
 
 import java.util.Iterator;
 
@@ -8,10 +9,10 @@ public class TreeIteratorTest {
     int[] elements = {5, 8, 3, 2, 1, 4, 9, 10, 7, 6};
 
     @Test
-    public void addingTest() {
+    public void addingTest() throws Node.ElementDoesExist {
         String expectedAnswer = " (5 (3 (2 (1 null null)  null)  (4 null null) )  (8 (7 (6 null null)  null)  (9 null (10 null null) ) ) ) ";
 
-        IteratorTree<Integer> tree = new IteratorTree();
+        IteratorTree<Integer> tree = new IteratorTree<>();
         for (int i = 0; i < elements.length; i++) {
             tree.addElement(elements[i]);
         }
@@ -29,7 +30,7 @@ public class TreeIteratorTest {
     }
 
     @Test
-    public void removingTest() {
+    public void removingTest() throws Node.ElementDoesExist, Node.ElementDoesntExist {
         IteratorTree<Integer> tree = new IteratorTree();
         for (int i = 0; i < elements.length; i++) {
             tree.addElement(elements[i]);
@@ -42,7 +43,7 @@ public class TreeIteratorTest {
     }
 
     @Test
-    public void findingTest() {
+    public void findingTest() throws Node.ElementDoesExist {
         IteratorTree<Integer> tree = new IteratorTree();
         for (int i = 0; i < elements.length; i++) {
             tree.addElement(elements[i]);
@@ -65,7 +66,7 @@ public class TreeIteratorTest {
     }
 
     @Test
-    public void forEachTest() {
+    public void forEachTest() throws Node.ElementDoesExist {
         IteratorTree<Integer> tree = new IteratorTree();
         for (int i = 0; i < elements.length; i++) {
             tree.addElement(elements[i]);
@@ -81,7 +82,7 @@ public class TreeIteratorTest {
     }
 
     @Test
-    public void removingIteratorTest() {
+    public void removingIteratorTest() throws Node.ElementDoesExist {
         IteratorTree<Integer> tree = new IteratorTree();
         for (int i = 0; i < elements.length; i++) {
             tree.addElement(elements[i]);
