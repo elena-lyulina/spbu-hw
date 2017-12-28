@@ -10,22 +10,14 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Player extends Thread {
-    private Game game;
-    private char mark;
     private Socket socket;
     private BufferedReader reader;
     private PrintWriter writer;
-    private Canon canon;
+    private Player opponent;
+    private boolean win;
 
-    public Canon getCanon() {
-        return canon;
-    }
-
-    public Player(Socket socket, char name, Game game) {
-        this.canon = new Canon();
-        this.game = game;
+    public Player(Socket socket, char name) {
         this.socket = socket;
-        this.mark = name;
         try {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
@@ -35,14 +27,37 @@ public class Player extends Thread {
         } catch (IOException e) {
             System.out.println("ERROR : " + e);
         }
+        win = false;
+    }
+
+    public PrintWriter getWriter() {
+        return writer;
+    }
+
+    public void setOpponent(Player opponent) {
+        this.opponent = opponent;
+    }
+
+    public void setWin(boolean win) {
+        this.win = win;
     }
 
     public void run() {
-        writer.println("MESSAGE All players connected");
-
-
-//        крч тут надо все время проверять конец игры или нет
-        writer.println("MESSAGE All players connected");
-
+        try {
+            writer.println("MESSAGE All players connected");
+            while (true) {
+                String command = reader.readLine();
+                if (command.startsWith("WIN")){
+                    win = true;
+                    opponent.setWin(true);
+                    System.out.println("win player");
+                }
+                opponent.getWriter().println(command);
+            }
+        } catch (IOException e) {
+            System.out.println("Player died: " + e);
+        } finally {
+            try {socket.close();} catch (IOException e) {}
+        }
     }
 }

@@ -1,19 +1,13 @@
 package spbu.sem3.hw3.task1;
 
-import javafx.application.Application;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-
-import javafx.stage.Stage;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyEvent.*;
-
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,8 +16,8 @@ import static java.awt.event.KeyEvent.*;
 
 
 public class Graphic extends Thread {
-    private int windowWidth = 1000;
-    private int windowHeight = 500;
+    private int WINDOW_WIDTH = 800;
+    private int WINDOW_HEIGHT = 500;
     private GraphicsContext gc;
     private Background bg;
     private PrintWriter writer;
@@ -32,6 +26,7 @@ public class Graphic extends Thread {
     private Canon yourCanon;
     private Canon oppCanon;
     private Group root;
+    private boolean win;
 
 
     public Graphic(GraphicsContext gc, Group root, PrintWriter writer, BufferedReader reader, Socket socket) {
@@ -40,8 +35,9 @@ public class Graphic extends Thread {
         this.reader = reader;
         this.gc = gc;
         this.root = root;
-        yourCanon = new Canon();
-        oppCanon = new Canon();
+        yourCanon = new Canon("your", this);
+        oppCanon = new Canon("opp", this);
+        win = false;
     }
 
     public Background getBg() {
@@ -53,7 +49,6 @@ public class Graphic extends Thread {
     }
 
     private int[][] getCoord(String coord, int n) {
-        System.out.println(n + "getCoord n");
         coord = coord.substring(11);
         String[] coordArr = coord.split(" ");
         int[][] arr = new int[2][n];
@@ -64,58 +59,82 @@ public class Graphic extends Thread {
         return arr;
     }
 
-    @Override
-    public void run() {
+    public void setWin(boolean win) {
+        this.win = win;
+    }
+
+
+    public void run () {
         System.out.println("start");
         String response;
         try {
             response = reader.readLine();
             if (response.startsWith("MOUNT COORD")) {
-                System.out.println(response);
-                bg = new Background(windowWidth, windowHeight);
+                bg = new Background(WINDOW_WIDTH, WINDOW_HEIGHT);
                 int[][] coord = getCoord(response, bg.getN());
                 bg.setCoord(coord);
                 redraw();
-                System.out.println("redraw");
             }
-            response = reader.readLine();
-            System.out.println(response + " it s response");
-
             while (true) {
                 String command = reader.readLine();
-                System.out.println(command);
+                if (command.startsWith("WIN")) {
+                    writer.println("WIN");
+//                    yourCanon.timeline.stop();
+                    win = true;
+                    drawEnd();
+                }
                 if (command.startsWith("LEFT")) {
-                    oppCanon.move(bg, "left");
-                    System.out.println("move left");
-                }
-                else if (command.startsWith("RIGHT")) {
                     oppCanon.move(bg, "right");
-                    System.out.println("move right");
-                }
-
-                else if (command.startsWith("UP")) {
-                    oppCanon.rotate("up");
-                }
-                else if (command.startsWith("DOWN")) {
+                    yourCanon.setTarget(oppCanon.getCenterX(), oppCanon.getCenterY());
+                    redraw();
+                } else if (command.startsWith("RIGHT")) {
+                    oppCanon.move(bg, "left");
+                    yourCanon.setTarget(oppCanon.getCenterX(), oppCanon.getCenterY());
+                    redraw();
+                } else if (command.startsWith("UP")) {
                     oppCanon.rotate("down");
-                }
-                else if (command.startsWith("ENTER")) {
-                    oppCanon.throwBall(root);
-                    System.out.println("turn");
+                    redraw();
+                } else if (command.startsWith("DOWN")) {
+                    oppCanon.rotate("up");
+                    redraw();
+                } else if (command.startsWith("ENTER")) {
+                    oppCanon.throwBall(root, writer, gc);
+                    redraw();
+                    System.out.println("enter");
+                } else if (command.startsWith("PLUSSPEED")) {
+                    oppCanon.plusSpeed();
+                } else if (command.startsWith("MINUSSPEED")) {
+                    oppCanon.minusSpeed();
+                } else if (command.startsWith("PLUSSIZE")) {
+                    oppCanon.plusSize();
+                } else if (command.startsWith("MINUSSIZE")) {
+                    oppCanon.minusSize();
                 }
             }
         } catch (IOException e) {
             System.out.println("Player died: " + e);
         } finally {
-            try {socket.close();} catch (IOException e) {}
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
     }
 
-
+    private void close() {
+        try {
+            writer.close();
+            reader.close();
+            socket.close();
+        } catch (Exception e) {
+            System.err.println("Потоки не были закрыты!");
+        }
+    }
 
     public void redraw() {
         bg.draw(gc);
+        yourCanon.drawBelong(gc);
         yourCanon.draw(gc);
         oppCanon.draw(gc);
     }
@@ -123,38 +142,57 @@ public class Graphic extends Thread {
     public void handleKeyEvent(KeyEvent event, Group root) {
         switch(event.getKeyCode()) {
             case VK_ENTER:
-                System.out.println("enter");
-                yourCanon.throwBall(root);
+                yourCanon.throwBall(root, writer, gc);
                 writer.println("ENTER");
                 break;
             case VK_UP:
-                System.out.println("up");
                 yourCanon.rotate("up");
                 writer.println("UP");
                 redraw();
                 break;
             case VK_DOWN:
-                System.out.println("down");
                 yourCanon.rotate("down");
                 writer.println("DOWN");
                 redraw();
                 break;
             case VK_RIGHT:
-                System.out.println("right");
                 yourCanon.move(bg, "right");
+                oppCanon.setTarget(yourCanon.getCenterX(), yourCanon.getCenterY());
                 writer.println("RIGHT");
                 redraw();
                 break;
             case VK_LEFT:
-                System.out.println("left");
                 yourCanon.move(bg, "left");
+                oppCanon.setTarget(yourCanon.getCenterX(), yourCanon.getCenterY());
                 writer.println("LEFT");
                 redraw();
                 break;
+            case VK_W:
+                yourCanon.plusSpeed();
+                writer.println("PLUSSPEED");
+                break;
+            case VK_S:
+                yourCanon.minusSpeed();
+                writer.println("MINUSSPEED");
+                break;
+            case VK_A:
+                yourCanon.plusSize();
+                writer.println("PLUSSIZE");
+                break;
+            case VK_D:
+                yourCanon.minusSize();
+                writer.println("MINUSSIZE");
+                break;
         }
     }
+
+    public void drawEnd() {
+        gc.setFill(new LinearGradient(0, 0, 0, 1, true,
+                CycleMethod.REFLECT,
+                new Stop(1.1, Color.YELLOW),
+                new Stop(0.0, Color.RED)
+        ));
+        gc.fillRect(0, 0 , WINDOW_WIDTH, WINDOW_HEIGHT);
+        gc.fillText("THE END", WINDOW_WIDTH/2, WINDOW_WIDTH/2);
+    }
 }
-
-
-
-

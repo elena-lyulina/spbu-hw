@@ -5,33 +5,31 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
-import javafx.scene.text.Font;
 
 /** Class for background. */
 public class Background {
-
+    private int MOUNT_LENGTH = 100;
     private int windowWidth;
     private int windowHeight;
     private int n;
     private int[][] coord;
-    private int mountLength = 100;
 
     public Background(int windowWidth, int windowHeight){
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-        n = (int)Math.floor(windowWidth / mountLength) + 1;
+        n = (int)Math.floor(windowWidth / MOUNT_LENGTH) + 1;
         coord = new int[2][n];
         initializeMount(coord, n);
     }
 
-    /** Initialization coordinates of mountains with random numbers. */
+    /** Initializes coordinates of mountains with random numbers. */
     public void initializeMount(int[][] coord, int n) {
         coord[0][0] = 0;
         coord[1][0] = 200;
         for (int i = 1; i < n; i++) {
             coord[1][i] = (int) (Math.random() * 350 + 100);
 //            coord[1][i] = 200 * (i % 2);
-            coord[0][i] = i * mountLength;
+            coord[0][i] = i * MOUNT_LENGTH;
         }
        coord[1][n - 1] = 200;
     }
@@ -81,6 +79,12 @@ public class Background {
                 new Stop(0.0, Color.rgb(108, 166, 205))
         ));
         gc.fillRect(0, 0 , windowWidth, windowHeight);
+
+        Color color = Color.rgb(255, 255, 255);
+        gc.setFill(null);
+        gc.setStroke(Color.web(color.toString()));
+        gc.setLineWidth(4);
+        gc.fillText("W - plus speed; S - minus speed; A - plus ball size; D - minus ball size", 20, 20);
     }
 
 
@@ -89,7 +93,7 @@ public class Background {
      * @return length of mountain
      */
     public int getMountLength() {
-        return mountLength;
+        return MOUNT_LENGTH;
     }
 
     public int getN() { return  n; }

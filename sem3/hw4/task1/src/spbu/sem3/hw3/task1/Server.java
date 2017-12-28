@@ -10,7 +10,6 @@ public class Server {
         System.out.println("Server is Running");
         try {
             while (true) {
-                Game game = new Game();
                 Socket socket1 = listener.accept(); // заставляем сервер ждать подключений и выводим сообщение когда кто-то связался с сервером
                 System.out.println("Got the first client");
                 Socket socket2 = listener.accept();
@@ -21,7 +20,7 @@ public class Server {
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket1.getInputStream()));
 
-                Background bg = new Background(1000, 500);
+                Background bg = new Background(800, 500);
                 int[][] coord = bg.getCoord();
                 StringBuilder sb1 = new StringBuilder("MOUNT COORD");
                 StringBuilder sb2 = new StringBuilder("MOUNT COORD");
@@ -38,9 +37,10 @@ public class Server {
                 out2.println(sb2.toString());
                 System.out.println("messages sent");
 
-                Player player1 = new Player(socket1, '1', game);
-                Player player2 = new Player(socket2, '2', game);
-                game.setPlayers(player1, player2);
+                Player player1 = new Player(socket1, '1');
+                Player player2 = new Player(socket2, '2');
+                player1.setOpponent(player2);
+                player2.setOpponent(player1);
                 player1.start();
                 player2.start();
             }
