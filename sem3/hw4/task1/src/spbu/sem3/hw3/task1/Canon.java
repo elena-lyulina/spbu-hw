@@ -218,5 +218,7 @@ public class Canon {
         Image image = new Image("boom.png");
         gc.drawImage(image, x - 50, y - 50, 100, 100);
     }
+
+
 }
 

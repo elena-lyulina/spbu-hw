@@ -79,7 +79,7 @@ public class Graphic extends Thread {
                 String command = reader.readLine();
                 if (command.startsWith("WIN")) {
                     writer.println("WIN");
-//                    yourCanon.timeline.stop();
+                    yourCanon.timeline.stop();
                     win = true;
                     drawEnd();
                 }
@@ -190,9 +190,9 @@ public class Graphic extends Thread {
         gc.setFill(new LinearGradient(0, 0, 0, 1, true,
                 CycleMethod.REFLECT,
                 new Stop(1.1, Color.YELLOW),
-                new Stop(0.0, Color.RED)
+                new Stop(0.0, Color.GREEN)
         ));
         gc.fillRect(0, 0 , WINDOW_WIDTH, WINDOW_HEIGHT);
-        gc.fillText("THE END", WINDOW_WIDTH/2, WINDOW_WIDTH/2);
+        gc.fillText("YOU WIN", WINDOW_WIDTH/2, WINDOW_WIDTH/2);
     }
 }
