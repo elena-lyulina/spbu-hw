@@ -1,4 +1,4 @@
-package spbu.sem3.hw3.task1;
+package spbu.sem3.hw4.task1;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -66,6 +66,7 @@ public class Background {
         gc.lineTo(coord[0][0], windowHeight);
         gc.lineTo(coord[0][0], coord[1][0]);
         gc.fill();
+        gc.setFill(Color.web(Color.BLACK.toString()));
     }
 
     /**
@@ -80,10 +81,9 @@ public class Background {
         ));
         gc.fillRect(0, 0 , windowWidth, windowHeight);
 
-        Color color = Color.rgb(255, 255, 255);
-        gc.setFill(null);
-        gc.setStroke(Color.web(color.toString()));
-        gc.setLineWidth(4);
+        Color color = Color.BLACK;
+        gc.setFill(Color.web(color.toString()));
+        gc.setLineWidth(10);
         gc.fillText("W - plus speed; S - minus speed; A - plus ball size; D - minus ball size", 20, 20);
     }
 
@@ -106,4 +106,14 @@ public class Background {
     public int[][] getCoord(){
         return coord;
     }
+
+    public int getY_at_X(int x) {
+        if (x <= 0 || x >= windowWidth)
+            return 200;
+        int i = (x) / MOUNT_LENGTH;
+        int y = coord[1][i+1] + (((coord[0][i + 1] - x) * (coord[1][i] - coord[1][i+1])) / (coord[0][i + 1] - coord[0][i]));
+        return y;
+    }
+
+
 }

@@ -1,7 +1,4 @@
-package spbu.sem3.hw3.task1;
-
-import javafx.scene.Group;
-import javafx.scene.input.KeyEvent;
+package spbu.sem3.hw4.task1;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,13 +13,12 @@ public class Player extends Thread {
     private Player opponent;
     private boolean win;
 
-    public Player(Socket socket, char name) {
+    public Player(Socket socket) {
         this.socket = socket;
         try {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
             writer.println("MESSAGE Waiting for opponent to connect");
-            writer.println("sooqa");
 
         } catch (IOException e) {
             System.out.println("ERROR : " + e);
@@ -45,14 +41,16 @@ public class Player extends Thread {
     public void run() {
         try {
             writer.println("MESSAGE All players connected");
-            while (true) {
+            while (!win) {
                 String command = reader.readLine();
-                if (command.startsWith("WIN")){
+                if (command!= null && command.startsWith("WIN")){
                     win = true;
                     opponent.setWin(true);
-                    System.out.println("win player");
+                    opponent.getWriter().println("WINopp ".concat(command.substring(4)));
+                    writer.println("WINyou ".concat(command.substring(4)));
                 }
-                opponent.getWriter().println(command);
+                 else
+                     opponent.getWriter().println(command);
             }
         } catch (IOException e) {
             System.out.println("Player died: " + e);

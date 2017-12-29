@@ -1,4 +1,4 @@
-package spbu.sem3.hw3.task1;
+package spbu.sem3.hw4.task1;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,15 +11,13 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 
 /** Class for canon. */
 public class Canon {
     private int CANON_HEIGHT = 80;
     private int CANON_WIDTH = 120;
-    private double STEP = 10;
+    private double STEP = 25;
     private int GUN_LENGTH = 50;
     private double ANGLE_STEP = 0.2;
     private int speed;
@@ -50,17 +48,17 @@ public class Canon {
         this.graphic = graphic;
         this.belongTo = belongTo;
         if (belongTo.equals("your")) {
-            centerX = 20;
+            centerX = 0;
             centerY = 200;
-            angle = 3;
-            targetX = 767;
+            angle = Math.PI;
+            targetX = WINGOW_WIDTH;
             targetY = 200;
         }
         else if (belongTo.equals("opp")) {
-            centerX = 767;
+            centerX = WINGOW_WIDTH;
             centerY = 200;
-            angle = 0.2;
-            targetX = 20;
+            angle = 0;
+            targetX = 0;
             targetY = 200;
         }
     }
@@ -119,7 +117,7 @@ public class Canon {
                 i = (centerX / bg.getMountLength()) + 1;
                 break;
             case ("left"):
-                if (centerX < 0)
+                if (centerX <= 0)
                     return;
                 if (centerX % bg.getMountLength() == 0)
                     centerX--;
@@ -137,10 +135,15 @@ public class Canon {
         centerY += sin * STEP;
     }
 
+    public void moveTo(int x, int y) {
+        centerX = x;
+        centerY = y;
+    }
+
     public void drawBelong(GraphicsContext gc) {
         if (belongTo.equals("your")) {
-            Color color = Color.rgb(55, 64, 38);
-            gc.setStroke(Color.web(color.toString()));
+            Color color = Color.BLACK;
+            gc.setFill((Color.web(color.toString())));
             gc.setLineWidth(4);
             gc.fillText("you", centerX + CANON_WIDTH / 2,
                     centerY - CANON_HEIGHT / 2);
@@ -159,7 +162,7 @@ public class Canon {
         Image image = new Image("canon.png");
         gc.drawImage(image, centerX - CANON_WIDTH / 2,
                 centerY - CANON_HEIGHT / 2, CANON_WIDTH, CANON_HEIGHT);
-
+        drawBelong(gc);
     }
     /**
      * rotates the gun at an ANGLE_STEP.
@@ -172,7 +175,7 @@ public class Canon {
             angle -= ANGLE_STEP;
     }
 
-    private boolean equalWithError(double a, int b, int error) {
+    private boolean equalWithError(double a, double b, int error) {
         return Math.abs(a - b) <= error;
     }
 
@@ -180,7 +183,7 @@ public class Canon {
      * throws the ball.
      * @param root your Group
      */
-    public void throwBall(Group root, PrintWriter writer, GraphicsContext gc){
+    public void throwBall(Group root, PrintWriter writer, GraphicsContext gc, Background bg){
         int ballRadius = ballSize;
         Circle ball = new Circle(ballRadius, Color.rgb(82, 82, 82));
         Platform.runLater(() -> {
@@ -195,23 +198,38 @@ public class Canon {
                     double cos = Math.cos(angle);
                     double sin = Math.sin(angle);
                     boolean boom = false;
+                    boolean mountStop = false;
                     @Override
                     public void handle(ActionEvent t) {
-                        if (equalWithError(ball.getLayoutX(), targetX, CANON_WIDTH/2 - ballRadius) &&
-                                equalWithError(ball.getLayoutY(), targetY, CANON_HEIGHT/2 - ballRadius)) {
-                            writer.println("WIN");
-                            if (!boom) {
-                                drawBoom(gc, targetX, targetY);
-                                boom = true;
+                        if (!mountStop) {
+                            ball.setLayoutX(ball.getLayoutX() - currentSpeed * cos);
+                            ball.setLayoutY(ball.getLayoutY() - currentSpeed * sin + g);
+                            g += 0.15;
+                            if (equalWithError(ball.getLayoutX(), targetX, CANON_WIDTH / 3 + ballRadius*3) &&
+                                    equalWithError(ball.getLayoutY(), targetY, CANON_HEIGHT / 3 + ballRadius*3)) {
+                                if (!boom) {
+                                    boom = true;
+
+                                    writer.println("WIN " + (int) ball.getLayoutX() + " " + (int) ball.getLayoutY());
+                                    ball.setLayoutX(-100);
+                                    ball.setLayoutY(-100);
+                                }
+                            }
+                            if (onMount((int) ball.getLayoutX(), (int) ball.getLayoutY(), bg)) {
+                                System.out.println("mountstop");
+                                mountStop = true;
+                                ball.setLayoutX(-100);
+                                ball.setLayoutY(-100);
                             }
                         }
-                        ball.setLayoutX(ball.getLayoutX() - currentSpeed * cos);
-                        ball.setLayoutY(ball.getLayoutY() - currentSpeed * sin + g);
-                        g += 0.15;
                     }
                 }));
         timeline.setCycleCount(200);
         timeline.play();
+    }
+
+    public boolean onMount(int x, int y, Background bg) {
+        return y > bg.getY_at_X(x);
     }
 
     public void drawBoom(GraphicsContext gc, int x, int y) {
@@ -219,6 +237,4 @@ public class Canon {
         gc.drawImage(image, x - 50, y - 50, 100, 100);
     }
 
-
 }
-

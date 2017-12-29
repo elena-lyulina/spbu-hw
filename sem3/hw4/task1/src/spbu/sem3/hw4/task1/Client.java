@@ -1,4 +1,4 @@
-package spbu.sem3.hw3.task1;
+package spbu.sem3.hw4.task1;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.Group;
@@ -50,18 +50,15 @@ public class Client {
         graphic.start();
 
         jfx.addKeyListener(new KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent e) {
-                if (graphic != null)
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                if (graphic.isAlive())
                     graphic.handleKeyEvent(e, root);
             }
         });
     }
 
     public static void main(String[] args) throws Exception {
-        while(true) {
-            Client client = new Client("localhost");
-            client.start();
-            break;
-        }
+        Client client = new Client("localhost");
+        client.start();
     }
 }
