@@ -1,5 +1,2 @@
 foundAt :: Int -> [Int] -> Int
-foundAt x list = helper x list 0 where
-                 helper _ [] _ = error "not found"
-                 helper x (y:ys) n | x == y    = n
-                                   | otherwise = helper x ys (n + 1)
+foundAt x list = snd . head $ filter (\a -> fst a == x) $ zip list [1..]
