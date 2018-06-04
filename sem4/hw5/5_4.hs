@@ -38,13 +38,13 @@ simplify' operation = case operation of
             op :-: Const 0 -> simplify' op   
             op :*: Const 1 -> simplify' op
             op :*: Const 0 -> Const 0
-            op :/: Const 1 -> simplify op
+            op :/: Const 1 -> simplify' op
             op :/: Const 0 -> error "Division by zero is not allowed!"
             op :^: 0 -> Const 1
             op :^: 1 -> simplify' op
             Neg (Neg op) -> simplify' op
             
-            Const 0 :+: op -> simplify op
+            Const 0 :+: op -> simplify' op
             Const 0 :-: op -> Neg (simplify' op)
             Const 1 :*: op -> simplify' op
             Const 0 :*: op -> Const 0
